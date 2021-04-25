@@ -1,6 +1,11 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+  <div class="home container">
+    <section class="hero">
+      <div class="hero-body">
+        <p class="title">Garfield Neighborhood Resources</p>
+        <p class="subtitle">Brought to you by the Garfield Site Council</p>
+      </div>
+    </section>
     <b-field>
       <b-input
         placeholder="Search..."
@@ -11,40 +16,61 @@
       >
       </b-input>
     </b-field>
-    <b-table :data="filteredResources">
-      <b-table-column label="Category" field="category" v-slot="props">
+    <b-table :data="filteredResources" detailed detail-key="name">
+      <b-table-column label="Category" field="category" v-slot="props" sortable>
         {{ props.row.category }}
       </b-table-column>
-      <b-table-column label="Name" field="name" v-slot="props">
+      <b-table-column label="Name" field="name" v-slot="props" sortable>
         {{ props.row.name }}
       </b-table-column>
-      <b-table-column label="Eligibility" field="eligibiity" v-slot="props">
-        {{ props.row.eligibiity }}
+      <!-- <b-table-column label="Services" field="services" v-slot="props">
+        {{ props.row.services }}
       </b-table-column>
+      <b-table-column label="Eligibility" field="eligibility" v-slot="props">
+        {{ props.row.eligibility }}
+      </b-table-column> -->
       <b-table-column label="Address" field="address" v-slot="props">
         {{ props.row.address }}
       </b-table-column>
-      <b-table-column label="Hours" field="hours" v-slot="props">
-        {{ props.row.hours }}
+      <b-table-column label="Hours" field="hoursofoperation" v-slot="props">
+        {{ props.row.hoursofoperation }}
       </b-table-column>
       <b-table-column label="Phone" field="phone" v-slot="props">
         {{ props.row.phone }}
       </b-table-column>
       <b-table-column label="Website" field="website" v-slot="props">
-        {{ props.row.website }}
+        <a :href="props.row.website" target="_blank" :title="props.row.name">{{
+          props.row.website
+        }}</a>
       </b-table-column>
       <b-table-column label="Email" field="email" v-slot="props">
-        {{ props.row.email }}
+        <a
+          :href="'mailto:' + props.row.email"
+          target="_blank"
+          :title="props.row.name"
+          v-if="props.row.email !== 'n/a' && props.row.email != ''"
+          >{{ props.row.email }}
+        </a>
+        <span v-else>{{ props.row.email }}</span>
       </b-table-column>
       <b-table-column label="Tags" field="tags" v-slot="props">
         <span
           v-for="(tag, i) in props.row.tags.split(',')"
           :key="i"
-          class="tag is-success"
+          class="tag is-success mr-4"
         >
           {{ tag }}
         </span>
       </b-table-column>
+
+      <template #detail="props">
+        <div class="content">
+          <strong>Services:</strong>
+          <div>{{ props.row.services }}</div>
+          <strong>Eligibility:</strong>
+          <div>{{ props.row.eligibility }}</div>
+        </div>
+      </template>
     </b-table>
   </div>
 </template>

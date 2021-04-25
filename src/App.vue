@@ -3,10 +3,7 @@
     <b-navbar>
       <template #brand>
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <img
-            src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-            alt="Lightweight UI components for Vue.js based on Bulma"
-          />
+          <span class="title">GNR</span>
         </b-navbar-item>
       </template>
       <template #start>
@@ -16,11 +13,108 @@
         <b-navbar-item tag="router-link" to="About"> About </b-navbar-item>
       </template>
     </b-navbar>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view />
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Garfield Neighborhood Resources</strong> curated by members of
+          the Garfield Site Council, supported by:
+        </p>
+
+        <div class="columns">
+          <div class="column">
+            <a href="#" title="GarfieldNeighborhood.org">
+              <figure class="image">
+                <img
+                  class="image"
+                  :src="require('@/assets/go_logo.png')"
+                  alt="Garfield Organization Logo"
+                />
+              </figure>
+            </a>
+          </div>
+          <div class="column">
+            <a
+              target="_blank"
+              href="https://mollenfoundation.org/"
+              title="https://mollenfoundation.org/"
+            >
+              <figure class="image">
+                <img
+                  class="image"
+                  :src="require('@/assets/logo-mollen_foundation.png')"
+                  alt="Mollen Foundation Logo"
+                />
+              </figure>
+            </a>
+          </div>
+
+          <div class="column">
+            <a
+              target="_blank"
+              href="https://phxschools.org/garfield/"
+              title="https://phxschools.org/garfield/"
+            >
+              <figure class="image">
+                <img
+                  class="image"
+                  :src="require('@/assets/garfield-logo.png')"
+                  alt="Garfield School Logo"
+                />
+              </figure>
+            </a>
+          </div>
+
+          <div class="column">
+            <a
+              target="_blank"
+              href="https://www.aimright.org/"
+              title="https://www.aimright.org/"
+            >
+              <figure class="image">
+                <img
+                  class="image"
+                  :src="require('@/assets/aimright-footer-logo.png')"
+                  alt="Aim Right Ministries Logo"
+                />
+              </figure>
+            </a>
+          </div>
+
+          <div class="column">
+            <a
+              target="_blank"
+              href="https://unitephx.org/"
+              title="https://unitephx.org/"
+            >
+              <figure class="image">
+                <img
+                  class="image"
+                  :src="require('@/assets/unite.png')"
+                  alt="Unite PHX Logo"
+                />
+              </figure>
+            </a>
+          </div>
+
+          <div class="column">
+            <a
+              target="_blank"
+              href="https://trinitycathedral.com/"
+              title="https://trinitycathedral.com/"
+            >
+              <figure class="image">
+                <img
+                  class="image"
+                  :src="require('@/assets/trinity.jpg')"
+                  alt="Trinity Cathedral Logo"
+                />
+              </figure>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -38,24 +132,12 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+// .footer img {
+//   max-height: 128px;
+// }
+@media print {
+  .control {
+    display: none !important;
   }
 }
 </style>
