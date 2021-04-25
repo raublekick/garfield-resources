@@ -4,6 +4,7 @@
       <div class="hero-body">
         <p class="title">Garfield Neighborhood Resources</p>
         <p class="subtitle">Brought to you by the Garfield Site Council</p>
+        <b-button @click="print()">Print</b-button>
       </div>
     </section>
     <b-field>
@@ -97,6 +98,9 @@ export default {
     },
   },
   methods: {
+    print() {
+      window.print();
+    },
     search(collection, text) {
       return _.filter(collection, (object) => {
         var search = this.deepSearch(object, text.toLowerCase());

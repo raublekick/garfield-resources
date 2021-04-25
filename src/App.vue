@@ -139,5 +139,12 @@ export default {
   .control {
     display: none !important;
   }
+  .button {
+    display: none !important;
+  }
+  // .footer {
+  //   position: fixed;
+  //   bottom: 0;
+  // }
 }
 </style>
