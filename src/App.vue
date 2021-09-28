@@ -146,5 +146,8 @@ export default {
   //   position: fixed;
   //   bottom: 0;
   // }
+  // tr {
+  //   page-break-inside: avoid;
+  // }
 }
 </style>

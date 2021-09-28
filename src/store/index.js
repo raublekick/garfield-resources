@@ -1,15 +1,21 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import * as _ from "lodash";
 
 Vue.use(Vuex);
 
-var getSheet = async (sheet) => {
+var getSheet = async () => {
   const sheetUrl =
-    "https://spreadsheets.google.com/feeds/list/15362jwxTcCx-pYv1Jz6DS2_Ckn5tjCqSZU6Q8Z4QLFE/" +
-    sheet +
-    "/public/values?alt=json";
-  const response = await fetch(sheetUrl);
-  const result = await response.json();
+    "https://sheets.googleapis.com/v4/spreadsheets/" +
+    process.env.VUE_APP_SHEET_ID +
+    "/values/" +
+    process.env.VUE_APP_TAB_NAME +
+    "?alt=json&key=" +
+    process.env.VUE_APP_GDRIVE_API_KEY;
+  const response = fetch(sheetUrl).then((response) => {
+    return response.json();
+  });
+  const result = response;
   return result;
 };
 
@@ -21,65 +27,24 @@ export default new Vuex.Store({
   mutations: {},
   actions: {
     async loadData({ state }) {
-      const data = [];
       for (var tab = 1; tab <= state.totalFeeds; tab++) {
         const json = await getSheet(tab);
-        const rows = json.feed.entry;
+        const rows = json.values;
+
+        // columns will be first row of data, rows will have removed first row
+        var columns = rows.shift();
 
         for (const row of rows) {
           const formattedRow = {};
 
-          for (const key in row) {
-            if (key.startsWith("gsx$")) {
-              /* The actual row names from your spreadsheet
-               * are formatted like "gsx$title".
-               * Therefore, we need to find keys in this object
-               * that start with "gsx$", and then strip that
-               * out to get the actual row name
-               */
-              formattedRow[key.replace("gsx$", "")] = row[key].$t;
-            }
+          for (var i = 0; i < columns.length; i++) {
+            var column = _.camelCase(columns[i]);
+            formattedRow[column] = row[i];
           }
 
           state.resources.push(formattedRow);
         }
-
-        console.log(
-          data
-        ); /* do anything you want with the reformatted data here */
       }
-      // fetch(
-      //   "https://spreadsheets.google.com/feeds/list/1mc3YOhcmHnVykhPrDZWtnIMg3W-6rVU1nTfIPVzouQM/1/public/values?alt=json"
-      // )
-      //   .then((res) => res.json())
-      //   .then((json) => {
-      //     const rows = json.feed.entry;
-
-      //     for (const row of rows) {
-      //       const formattedRow = {};
-
-      //       for (const key in row) {
-      //         if (key.startsWith("gsx$")) {
-      //           /* The actual row names from your spreadsheet
-      //            * are formatted like "gsx$title".
-      //            * Therefore, we need to find keys in this object
-      //            * that start with "gsx$", and then strip that
-      //            * out to get the actual row name
-      //            */
-
-      //           formattedRow[key.replace("gsx$", "")] = row[key].$t;
-      //         }
-      //       }
-
-      //       data.push(formattedRow);
-      //     }
-
-      //     console.log(
-      //       data
-      //     ); /* do anything you want with the reformatted data here */
-      //   });
-
-      // state.resources = data;
     },
   },
   modules: {},
